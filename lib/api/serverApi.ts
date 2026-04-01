@@ -5,6 +5,19 @@ import { User } from "@/types/user";
 
 const NOTES_ENDPOINT = "/notes";
 
+interface FetchNotesParams {
+  search?: string;
+  tag?: string;
+  page?: number;
+  perPage?: number;
+  sortBy?: "created" | "updated";
+}
+
+interface NotesResponse {
+  notes: Note[];
+  totalPages: number;
+}
+
 export async function checkSession() {
   const cookieStore = await cookies();
   return await api.get("/auth/session", {
@@ -24,9 +37,11 @@ export async function getMe(): Promise<User | null> {
   }
 }
 
-export async function fetchNotes(params: any) {
+export async function fetchNotes(
+  params: FetchNotesParams,
+): Promise<NotesResponse> {
   const cookieStore = await cookies();
-  const { data } = await api.get(NOTES_ENDPOINT, {
+  const { data } = await api.get<NotesResponse>(NOTES_ENDPOINT, {
     headers: { Cookie: cookieStore.toString() },
     params: { ...params, perPage: 12 },
   });

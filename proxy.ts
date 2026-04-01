@@ -59,7 +59,6 @@ export async function proxy(request: NextRequest) {
         }
 
         nextResponse.headers.set("Cookie", cookieStore.toString());
-
         return nextResponse;
       }
     } catch (error) {
@@ -74,7 +73,7 @@ export async function proxy(request: NextRequest) {
   }
 
   if (accessToken && isPublicRoute) {
-    return NextResponse.redirect(new URL("/profile", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();
