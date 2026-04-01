@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { type CreateNotePayload } from "../api";
+import { CreateNotePayload } from "../api/clientApi";
 
 type NoteDraftStore = {
   draft: CreateNotePayload;
@@ -18,9 +18,8 @@ export const useNoteDraftStore = create<NoteDraftStore>()(
   persist(
     (set) => ({
       draft: initialDraft,
-
-      setDraft: (updatedDraft) => set({ draft: updatedDraft }),
-      clearDraft: () => set({ draft: initialDraft }),
+      setDraft: (updatedDraft) => set(() => ({ draft: updatedDraft })),
+      clearDraft: () => set(() => ({ draft: initialDraft })),
     }),
     {
       name: "note-draft-storage",

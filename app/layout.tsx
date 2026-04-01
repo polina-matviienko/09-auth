@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
+
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
+import AuthProvider from "@/components/AuthProvider/AuthProvider";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -19,6 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "NoteHub",
     description: "Your digital space for thoughts and notes.",
+    //Потім замінити на свій
     url: "08-zustand-five-psi.vercel.app",
     siteName: "NoteHub",
     images: [
@@ -43,10 +46,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.className} ${roboto.variable}`}>
         <TanStackProvider>
-          <Header />
-          <main>{children}</main>
-          {modal}
-          <Footer />
+          <AuthProvider>
+            <Header />
+            {modal}
+            {children}
+            <Footer />
+          </AuthProvider>
         </TanStackProvider>
       </body>
     </html>

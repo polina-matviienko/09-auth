@@ -1,4 +1,14 @@
-export type NoteTag = "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
+export type NoteTag =
+  | "Work"
+  | "Personal"
+  | "Meeting"
+  | "Shopping"
+  | "Ideas"
+  | "Travel"
+  | "Finance"
+  | "Health"
+  | "Important"
+  | "Todo";
 
 export interface Note {
   id: string;
@@ -10,9 +20,14 @@ export interface Note {
 }
 
 export const noteTags: NoteTag[] = [
-  "Todo",
   "Work",
   "Personal",
   "Meeting",
   "Shopping",
+  "Ideas",
+  "Travel",
+  "Finance",
+  "Health",
+  "Important",
+  "Todo",
 ];

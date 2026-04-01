@@ -3,7 +3,7 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import { fetchNotes } from "@/lib/api";
+import { fetchNotes } from "@/lib/api/serverApi";
 import NotesClient from "./Notes.client";
 import { NoteTag } from "@/types/note";
 import { Metadata } from "next";
@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
+      // Потім замінити на свій
       url: `08-zustand-five-psi.vercel.app/notes/filter/${slug?.[0] || "all"}`,
       siteName: "NoteHub",
       images: [
@@ -48,8 +49,13 @@ export default async function NotesPage({ params }: Props) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["notes", 1, "", 12, category],
-    queryFn: () => fetchNotes(1, "", 12, category),
+    queryKey: ["notes", 1, "", category],
+    queryFn: () =>
+      fetchNotes({
+        page: 1,
+        search: "",
+        tag: category,
+      }),
   });
 
   return (
